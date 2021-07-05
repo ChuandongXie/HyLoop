@@ -16,4 +16,4 @@ If you have any question, please contact with me ([Mail](chuandongxie@xauat.edu.
 * Import Excel files with column names
 
 ## Others
-The TempData.xlsx is obtained from Yao Luo whose study object was a self-centering connection. For more informations, please find in an [article](https://doi.org/10.1016/j.jcsr.2020.106052) or contact with him ([Mail](haruka_ra@outlook.com))
+The TempData.xlsx is obtained from Yao Luo whose study object was a self-centering connection. For more informations, please find in an [article](https://doi.org/10.1016/j.jcsr.2020.106052) or contact with him ([Mail](haruka_ra@outlook.com)).
