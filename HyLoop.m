@@ -1,54 +1,58 @@
-classdef HyLoop101_exported < matlab.apps.AppBase
+classdef HyLoop102_exported < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure               matlab.ui.Figure
-        AboutMenu              matlab.ui.container.Menu
-        Panel_2                matlab.ui.container.Panel
-        ComputeButton          matlab.ui.control.Button
-        AllRelEditField        matlab.ui.control.NumericEditField
-        AllRelEditFieldLabel   matlab.ui.control.Label
-        NegRelEditField        matlab.ui.control.NumericEditField
-        NegRelEditFieldLabel   matlab.ui.control.Label
-        PosRelEditField        matlab.ui.control.NumericEditField
-        PosRelEditFieldLabel   matlab.ui.control.Label
-        NegMinEditField        matlab.ui.control.NumericEditField
-        NegMinEditFieldLabel   matlab.ui.control.Label
-        PosMinEditField        matlab.ui.control.NumericEditField
-        PosMinEditFieldLabel   matlab.ui.control.Label
-        NegMaxEditField        matlab.ui.control.NumericEditField
-        NegMaxEditFieldLabel   matlab.ui.control.Label
-        PosMaxEditField        matlab.ui.control.NumericEditField
-        PosMaxEditFieldLabel   matlab.ui.control.Label
-        SplitIntoCyclesButton  matlab.ui.control.Button
-        UITable                matlab.ui.control.Table
-        Panel                  matlab.ui.container.Panel
-        MAButton               matlab.ui.control.StateButton
-        EFLabel                matlab.ui.control.Label
-        BSLabel                matlab.ui.control.Label
-        AnimationSlider        matlab.ui.control.Slider
-        AnimationCherkBox      matlab.ui.control.CheckBox
-        ButtonAnimation        matlab.ui.container.ButtonGroup
-        AnimationSubButton     matlab.ui.control.RadioButton
-        AnimationMainButton    matlab.ui.control.RadioButton
-        AnimationLabel         matlab.ui.control.Label
-        PlotLabel              matlab.ui.control.Label
-        ButtonPlot             matlab.ui.container.ButtonGroup
-        OneCycleOnlyButton     matlab.ui.control.RadioButton
-        MainCurvesOnlyButton   matlab.ui.control.RadioButton
-        WithCyclesButton       matlab.ui.control.RadioButton
-        CyclesListBox_2        matlab.ui.control.ListBox
-        CyclesListBox_2Label   matlab.ui.control.Label
-        CycleDepListBox        matlab.ui.control.ListBox
-        CycleDepListBoxLabel   matlab.ui.control.Label
-        DepListBox             matlab.ui.control.ListBox
-        DepListBoxLabel        matlab.ui.control.Label
-        IndepListBox           matlab.ui.control.ListBox
-        IndepListBoxLabel      matlab.ui.control.Label
-        SheetsListBox          matlab.ui.control.ListBox
-        SheetsListBoxLabel     matlab.ui.control.Label
-        OpenExcelFileButton    matlab.ui.control.Button
-        UIAxes                 matlab.ui.control.UIAxes
+        UIFigure                  matlab.ui.Figure
+        AboutMenu                 matlab.ui.container.Menu
+        RosttesButton             matlab.ui.control.Button
+        Panel_2                   matlab.ui.container.Panel
+        LossEditField             matlab.ui.control.NumericEditField
+        LossEditFieldLabel        matlab.ui.control.Label
+        InitialRelEditField       matlab.ui.control.NumericEditField
+        InitialRelEditFieldLabel  matlab.ui.control.Label
+        AllRelEditField           matlab.ui.control.NumericEditField
+        AllRelEditFieldLabel      matlab.ui.control.Label
+        NegRelEditField           matlab.ui.control.NumericEditField
+        NegRelEditFieldLabel      matlab.ui.control.Label
+        PosRelEditField           matlab.ui.control.NumericEditField
+        PosRelEditFieldLabel      matlab.ui.control.Label
+        NegMinEditField           matlab.ui.control.NumericEditField
+        NegMinEditFieldLabel      matlab.ui.control.Label
+        PosMinEditField           matlab.ui.control.NumericEditField
+        PosMinEditFieldLabel      matlab.ui.control.Label
+        NegMaxEditField           matlab.ui.control.NumericEditField
+        NegMaxEditFieldLabel      matlab.ui.control.Label
+        PosMaxEditField           matlab.ui.control.NumericEditField
+        PosMaxEditFieldLabel      matlab.ui.control.Label
+        SplitIntoCyclesButton     matlab.ui.control.Button
+        UITable                   matlab.ui.control.Table
+        Panel                     matlab.ui.container.Panel
+        MAButton                  matlab.ui.control.StateButton
+        EFLabel                   matlab.ui.control.Label
+        BSLabel                   matlab.ui.control.Label
+        AnimationSlider           matlab.ui.control.Slider
+        AnimationCherkBox         matlab.ui.control.CheckBox
+        ButtonAnimation           matlab.ui.container.ButtonGroup
+        AnimationSubButton        matlab.ui.control.RadioButton
+        AnimationMainButton       matlab.ui.control.RadioButton
+        AnimationLabel            matlab.ui.control.Label
+        PlotLabel                 matlab.ui.control.Label
+        ButtonPlot                matlab.ui.container.ButtonGroup
+        OneCycleOnlyButton        matlab.ui.control.RadioButton
+        MainCurvesOnlyButton      matlab.ui.control.RadioButton
+        WithCyclesButton          matlab.ui.control.RadioButton
+        CyclesListBox_2           matlab.ui.control.ListBox
+        CyclesListBox_2Label      matlab.ui.control.Label
+        CycleDepListBox           matlab.ui.control.ListBox
+        CycleDepListBoxLabel      matlab.ui.control.Label
+        DepListBox                matlab.ui.control.ListBox
+        DepListBoxLabel           matlab.ui.control.Label
+        IndepListBox              matlab.ui.control.ListBox
+        IndepListBoxLabel         matlab.ui.control.Label
+        SheetsListBox             matlab.ui.control.ListBox
+        SheetsListBoxLabel        matlab.ui.control.Label
+        OpenExcelFileButton       matlab.ui.control.Button
+        UIAxes                    matlab.ui.control.UIAxes
     end
 
     %%%% TODO
@@ -57,6 +61,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
     
     %%%% LOP
     % 2021-07-12    v1.01
+    % 2021-07-13    v1.02
     
     
     
@@ -79,6 +84,8 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         loopPointPlot % tempPlot
         aniDataX % animation data
         aniDataY % animation data
+        Rosettes % Description
+        loopList % loop list
     end
     
     methods (Access = private)
@@ -98,11 +105,13 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.NegMinEditField.Enable = false;
             app.NegRelEditField.Enable = false;
             app.AllRelEditField.Enable = false;
-            app.ComputeButton.Enable = false;
+            app.InitialRelEditField.Enable = false;
+            app.LossEditField.Enable = false;
             app.OneCycleOnlyButton.Enable = false;
             app.MainCurvesOnlyButton.Enable = false;
             app.WithCyclesButton.Enable = false;
             app.AnimationCherkBox.Enable = 'off';
+            app.RosttesButton.Enable = 'off';
         end
         
 
@@ -159,13 +168,13 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             end
             
             loopMax = size(app.loopRecord,1); % create looplist
-            loopList = strings(1);
+            app.loopList = strings(1);
             for l = 1:loopMax
-                loopList(l) = sprintf("Cycle_%d",l);
+                app.loopList(l) = sprintf("Cycle_%d",l);
             end
             
-            app.CyclesListBox_2.Items = loopList; % listBox
-            app.CyclesListBox_2.Value = loopList(1);
+            app.CyclesListBox_2.Items = app.loopList; % listBox
+            app.CyclesListBox_2.Value = app.loopList(1);
         end
         
         % cycle updata
@@ -195,10 +204,12 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         % cycle choose botton
         function proc_plotChoose(app)
             if app.WithCyclesButton.Value == true
-                app.CyclesListBox_2.Enable = 'on';
+%                 app.CyclesListBox_2.Enable = 'on';
                 proc_mainPlot(app);
                 hold(app.UIAxes,'on');
-                proc_cyclePlot(app);
+                if app.CyclesListBox_2.Enable == "on"
+                    proc_cyclePlot(app);
+                end
             elseif app.MainCurvesOnlyButton.Value == true
                 proc_mainPlot(app);
                 app.CyclesListBox_2.Enable = 'off';
@@ -258,7 +269,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         
         % point plot / use only once!!
         function plot_aniPoint(app)
-            app.loopPointPlot = plot(app.UIAxes,app.xLoop(1),app.yLoop(1),"Color",[0.4940 0.1840 0.5560],"Marker",".","MarkerSize",30); % plot once, but change later
+            app.loopPointPlot = plot(app.UIAxes,app.xLoop(1),app.yLoop(1),"Color",[1 0 0],"Marker",".","MarkerSize",30); % plot once, but change later
         end
         
         % get animation data
@@ -323,13 +334,12 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         % compute data
         function proc_comData(app)
             i = 1;
-            while app.xLoop(i) > 0
+            while app.xLoop(i) >= 0
                 i = i + 1;
             end
-            rowAtZero = i - 1;
+            rowAtZero = i;
             PYLoop = app.yLoop(1:rowAtZero);
             NYLoop = app.yLoop(rowAtZero+1:end);
-            max(PYLoop)
             app.PosMaxEditField.Value = max(PYLoop);
             app.PosMinEditField.Value = min(PYLoop);
             app.PosRelEditField.Value = app.PosMaxEditField.Value - app.PosMinEditField.Value;
@@ -337,6 +347,14 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.NegMinEditField.Value = min(NYLoop);
             app.NegRelEditField.Value = app.NegMaxEditField.Value - app.NegMinEditField.Value;
             app.AllRelEditField.Value = max(app.yLoop) - min(app.yLoop);
+            app.InitialRelEditField.Value = app.yLoop(1) - app.yLoop(size(app.yLoop,1));
+%             app.y
+%             app.y(1)
+%             app.yLoop(size(app.yLoop,1))
+%             app.y(1) - app.yLoop(size(app.yLoop,1))
+%             (app.y(1) - app.yLoop(size(app.yLoop,1)))/app.y(1)
+            app.LossEditField.Value = (app.y(1) - app.yLoop(size(app.yLoop,1))) / app.y(1);
+%             app.LossEditField.Value = (app.yLoopStruct.("Cycle_1")(1)-app.yLoop(size(app.yLoop,1)));
         end
         
 %                 % delete existing data
@@ -352,6 +370,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
 
         % Code that executes after component creation
         function startupFcn(app)
+            clear;
             app.SplitIntoCyclesButton.Enable = false;
             app.SheetsListBox.Enable = false;
             app.IndepListBox.Enable = false;
@@ -365,7 +384,8 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.NegMinEditField.Enable = false;
             app.NegRelEditField.Enable = false;
             app.AllRelEditField.Enable = false;
-            app.ComputeButton.Enable = false;
+            app.InitialRelEditField.Enable = false;
+            app.LossEditField.Enable = false;
             app.OneCycleOnlyButton.Enable = false;
             app.MainCurvesOnlyButton.Enable = false;
             app.WithCyclesButton.Enable = false;
@@ -374,6 +394,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.AnimationSubButton.Enable = false;
             app.AnimationSlider.Enable = 'off';
             app.MAButton.Enable = 'off';
+            app.RosttesButton.Enable = 'off';
         end
 
         % Button pushed function: OpenExcelFileButton
@@ -401,6 +422,9 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         % Selection changed function: ButtonPlot
         function ButtonPlotSelectionChanged(app, event)
             app.MAButton.Value = false; % stop animation;
+            if app.WithCyclesButton.Value == true
+                app.CyclesListBox_2.Enable = 'on';
+            end
             proc_plotChoose(app);
             if_aniAllorSingle(app);
             proc_animationStart(app) % update animation as well
@@ -450,7 +474,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         % Menu selected function: AboutMenu
         function AboutMenuSelected(app, event)
             fig = app.UIFigure;
-            message = sprintf('HyLoop v1.01\n\nDeveloped by Chuandong Xie \nwww.chuandongxie.com\nchuandongxie@xauat.edu.cn');
+            message = sprintf('HyLoop v1.02\n\nDeveloped by Chuandong Xie \nwww.chuandongxie.com\nchuandongxie@xauat.edu.cn');
             uialert(fig,message,'About',"Icon","none");
         end
 
@@ -458,6 +482,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         function UIFigureCloseRequest(app, event)
             YN = uiconfirm(app.UIFigure,'Do you want to close the app?', 'Close request');
             if strcmpi(YN,'OK')
+                delete(app.Rosettes);
                 delete(app);
             end
         end
@@ -508,8 +533,8 @@ classdef HyLoop101_exported < matlab.apps.AppBase
         % Value changed function: DepListBox
         function DepListBoxValueChanged(app, event)
             proc_mainData(app);
-            proc_mainPlot(app);
             proc_cycleUpdate(app);
+            proc_plotChoose(app);
         end
 
         % Value changed function: CycleDepListBox
@@ -517,6 +542,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             proc_cycleSplit(app);
             proc_cycleUpdate(app);
             app.CyclesListBox_2.Enable = true;
+            app.RosttesButton.Enable = 'on';
         end
 
         % Value changed function: CyclesListBox_2
@@ -532,7 +558,15 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.NegMinEditField.Enable = true;
             app.NegRelEditField.Enable = true;
             app.AllRelEditField.Enable = true;
+            app.InitialRelEditField.Enable = true;
+            app.LossEditField.Enable = true;
             proc_plotChoose(app);
+        end
+
+        % Button pushed function: RosttesButton
+        function RosttesButtonPushed(app, event)
+            app.RosttesButton.Enable = 'off';
+            app.Rosettes = Rosettes(app,app.sheetData,app.IndepListBox.Value,app.loopList,app.loopRecord);
         end
     end
 
@@ -571,54 +605,54 @@ classdef HyLoop101_exported < matlab.apps.AppBase
 
             % Create Panel
             app.Panel = uipanel(app.UIFigure);
-            app.Panel.Position = [21 147 300 467];
+            app.Panel.Position = [21 179 300 411];
 
             % Create SheetsListBoxLabel
             app.SheetsListBoxLabel = uilabel(app.Panel);
-            app.SheetsListBoxLabel.Position = [14 432 43 22];
+            app.SheetsListBoxLabel.Position = [14 376 43 22];
             app.SheetsListBoxLabel.Text = 'Sheets';
 
             % Create SheetsListBox
             app.SheetsListBox = uilistbox(app.Panel);
             app.SheetsListBox.Items = {};
             app.SheetsListBox.ValueChangedFcn = createCallbackFcn(app, @SheetsListBoxValueChanged, true);
-            app.SheetsListBox.Position = [82 419 204 37];
+            app.SheetsListBox.Position = [82 376 204 24];
             app.SheetsListBox.Value = {};
 
             % Create IndepListBoxLabel
             app.IndepListBoxLabel = uilabel(app.Panel);
-            app.IndepListBoxLabel.Position = [14 387 36 22];
+            app.IndepListBoxLabel.Position = [14 346 36 22];
             app.IndepListBoxLabel.Text = 'Indep';
 
             % Create IndepListBox
             app.IndepListBox = uilistbox(app.Panel);
             app.IndepListBox.Items = {};
             app.IndepListBox.ValueChangedFcn = createCallbackFcn(app, @IndepListBoxValueChanged, true);
-            app.IndepListBox.Position = [82 374 204 37];
+            app.IndepListBox.Position = [82 345 204 25];
             app.IndepListBox.Value = {};
 
             % Create DepListBoxLabel
             app.DepListBoxLabel = uilabel(app.Panel);
-            app.DepListBoxLabel.Position = [14 343 28 22];
+            app.DepListBoxLabel.Position = [14 315 28 22];
             app.DepListBoxLabel.Text = 'Dep';
 
             % Create DepListBox
             app.DepListBox = uilistbox(app.Panel);
             app.DepListBox.Items = {};
             app.DepListBox.ValueChangedFcn = createCallbackFcn(app, @DepListBoxValueChanged, true);
-            app.DepListBox.Position = [82 330 204 37];
+            app.DepListBox.Position = [82 315 204 24];
             app.DepListBox.Value = {};
 
             % Create CycleDepListBoxLabel
             app.CycleDepListBoxLabel = uilabel(app.Panel);
-            app.CycleDepListBoxLabel.Position = [14 299 61 22];
+            app.CycleDepListBoxLabel.Position = [14 286 61 22];
             app.CycleDepListBoxLabel.Text = 'Cycle Dep';
 
             % Create CycleDepListBox
             app.CycleDepListBox = uilistbox(app.Panel);
             app.CycleDepListBox.Items = {};
             app.CycleDepListBox.ValueChangedFcn = createCallbackFcn(app, @CycleDepListBoxValueChanged, true);
-            app.CycleDepListBox.Position = [82 286 204 37];
+            app.CycleDepListBox.Position = [82 286 204 24];
             app.CycleDepListBox.Value = {};
 
             % Create CyclesListBox_2Label
@@ -637,7 +671,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.ButtonPlot = uibuttongroup(app.Panel);
             app.ButtonPlot.SelectionChangedFcn = createCallbackFcn(app, @ButtonPlotSelectionChanged, true);
             app.ButtonPlot.BorderType = 'none';
-            app.ButtonPlot.Position = [128 111 162 79];
+            app.ButtonPlot.Position = [128 113 162 79];
 
             % Create WithCyclesButton
             app.WithCyclesButton = uiradiobutton(app.ButtonPlot);
@@ -657,19 +691,19 @@ classdef HyLoop101_exported < matlab.apps.AppBase
 
             % Create PlotLabel
             app.PlotLabel = uilabel(app.Panel);
-            app.PlotLabel.Position = [14 164 26 22];
+            app.PlotLabel.Position = [14 166 26 22];
             app.PlotLabel.Text = 'Plot';
 
             % Create AnimationLabel
             app.AnimationLabel = uilabel(app.Panel);
-            app.AnimationLabel.Position = [14 80 59 22];
+            app.AnimationLabel.Position = [14 82 59 22];
             app.AnimationLabel.Text = 'Animation';
 
             % Create ButtonAnimation
             app.ButtonAnimation = uibuttongroup(app.Panel);
             app.ButtonAnimation.SelectionChangedFcn = createCallbackFcn(app, @ButtonAnimationSelectionChanged, true);
             app.ButtonAnimation.BorderType = 'none';
-            app.ButtonAnimation.Position = [128 26 123 50];
+            app.ButtonAnimation.Position = [128 28 123 50];
 
             % Create AnimationMainButton
             app.AnimationMainButton = uiradiobutton(app.ButtonAnimation);
@@ -686,7 +720,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.AnimationCherkBox = uicheckbox(app.Panel);
             app.AnimationCherkBox.ValueChangedFcn = createCallbackFcn(app, @AnimationCherkBoxValueChanged, true);
             app.AnimationCherkBox.Text = '';
-            app.AnimationCherkBox.Position = [128 80 25 22];
+            app.AnimationCherkBox.Position = [128 82 25 22];
 
             % Create AnimationSlider
             app.AnimationSlider = uislider(app.Panel);
@@ -695,25 +729,25 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             app.AnimationSlider.MajorTickLabels = {''};
             app.AnimationSlider.ValueChangingFcn = createCallbackFcn(app, @AnimationSliderValueChanging, true);
             app.AnimationSlider.MinorTicks = [];
-            app.AnimationSlider.Position = [159 13 105 3];
+            app.AnimationSlider.Position = [159 15 105 3];
 
             % Create BSLabel
             app.BSLabel = uilabel(app.Panel);
             app.BSLabel.HorizontalAlignment = 'center';
-            app.BSLabel.Position = [128 4 25 22];
+            app.BSLabel.Position = [128 6 25 22];
             app.BSLabel.Text = 'B/S';
 
             % Create EFLabel
             app.EFLabel = uilabel(app.Panel);
             app.EFLabel.HorizontalAlignment = 'center';
-            app.EFLabel.Position = [269 4 25 22];
+            app.EFLabel.Position = [269 6 25 22];
             app.EFLabel.Text = 'E/F';
 
             % Create MAButton
             app.MAButton = uibutton(app.Panel, 'state');
             app.MAButton.ValueChangedFcn = createCallbackFcn(app, @MAButtonValueChanged, true);
             app.MAButton.Text = 'M/A';
-            app.MAButton.Position = [257 80 37 22];
+            app.MAButton.Position = [257 82 37 22];
 
             % Create UITable
             app.UITable = uitable(app.UIFigure);
@@ -724,87 +758,108 @@ classdef HyLoop101_exported < matlab.apps.AppBase
             % Create SplitIntoCyclesButton
             app.SplitIntoCyclesButton = uibutton(app.UIFigure, 'push');
             app.SplitIntoCyclesButton.ButtonPushedFcn = createCallbackFcn(app, @SplitIntoCyclesButtonPushed, true);
-            app.SplitIntoCyclesButton.Position = [21 623 300 22];
+            app.SplitIntoCyclesButton.Position = [21 625 300 22];
             app.SplitIntoCyclesButton.Text = 'Split Into Cycles';
 
             % Create Panel_2
             app.Panel_2 = uipanel(app.UIFigure);
-            app.Panel_2.Position = [21 17 300 124];
+            app.Panel_2.Position = [21 17 300 156];
 
             % Create PosMaxEditFieldLabel
             app.PosMaxEditFieldLabel = uilabel(app.Panel_2);
-            app.PosMaxEditFieldLabel.Position = [9 92 52 22];
+            app.PosMaxEditFieldLabel.Position = [9 124 52 22];
             app.PosMaxEditFieldLabel.Text = 'Pos Max';
 
             % Create PosMaxEditField
             app.PosMaxEditField = uieditfield(app.Panel_2, 'numeric');
             app.PosMaxEditField.ValueDisplayFormat = '%.2f';
-            app.PosMaxEditField.Position = [65 92 68 22];
+            app.PosMaxEditField.Position = [65 124 68 22];
 
             % Create NegMaxEditFieldLabel
             app.NegMaxEditFieldLabel = uilabel(app.Panel_2);
-            app.NegMaxEditFieldLabel.Position = [159 92 54 22];
+            app.NegMaxEditFieldLabel.Position = [159 124 54 22];
             app.NegMaxEditFieldLabel.Text = 'Neg Max';
 
             % Create NegMaxEditField
             app.NegMaxEditField = uieditfield(app.Panel_2, 'numeric');
             app.NegMaxEditField.ValueDisplayFormat = '%.2f';
-            app.NegMaxEditField.Position = [218 92 68 22];
+            app.NegMaxEditField.Position = [218 124 68 22];
 
             % Create PosMinEditFieldLabel
             app.PosMinEditFieldLabel = uilabel(app.Panel_2);
-            app.PosMinEditFieldLabel.Position = [9 64 49 22];
+            app.PosMinEditFieldLabel.Position = [9 96 49 22];
             app.PosMinEditFieldLabel.Text = 'Pos Min';
 
             % Create PosMinEditField
             app.PosMinEditField = uieditfield(app.Panel_2, 'numeric');
             app.PosMinEditField.ValueDisplayFormat = '%.2f';
-            app.PosMinEditField.Position = [65 64 68 22];
+            app.PosMinEditField.Position = [65 96 68 22];
 
             % Create NegMinEditFieldLabel
             app.NegMinEditFieldLabel = uilabel(app.Panel_2);
-            app.NegMinEditFieldLabel.Position = [159 64 50 22];
+            app.NegMinEditFieldLabel.Position = [159 96 50 22];
             app.NegMinEditFieldLabel.Text = 'Neg Min';
 
             % Create NegMinEditField
             app.NegMinEditField = uieditfield(app.Panel_2, 'numeric');
             app.NegMinEditField.ValueDisplayFormat = '%.2f';
-            app.NegMinEditField.Position = [218 64 68 22];
+            app.NegMinEditField.Position = [218 96 68 22];
 
             % Create PosRelEditFieldLabel
             app.PosRelEditFieldLabel = uilabel(app.Panel_2);
-            app.PosRelEditFieldLabel.Position = [9 36 48 22];
+            app.PosRelEditFieldLabel.Position = [9 68 48 22];
             app.PosRelEditFieldLabel.Text = 'Pos Rel';
 
             % Create PosRelEditField
             app.PosRelEditField = uieditfield(app.Panel_2, 'numeric');
             app.PosRelEditField.ValueDisplayFormat = '%.2f';
-            app.PosRelEditField.Position = [65 36 68 22];
+            app.PosRelEditField.Position = [65 68 68 22];
 
             % Create NegRelEditFieldLabel
             app.NegRelEditFieldLabel = uilabel(app.Panel_2);
-            app.NegRelEditFieldLabel.Position = [159 36 49 22];
+            app.NegRelEditFieldLabel.Position = [159 68 49 22];
             app.NegRelEditFieldLabel.Text = 'Neg Rel';
 
             % Create NegRelEditField
             app.NegRelEditField = uieditfield(app.Panel_2, 'numeric');
             app.NegRelEditField.ValueDisplayFormat = '%.2f';
-            app.NegRelEditField.Position = [218 36 68 22];
+            app.NegRelEditField.Position = [218 68 68 22];
 
             % Create AllRelEditFieldLabel
             app.AllRelEditFieldLabel = uilabel(app.Panel_2);
-            app.AllRelEditFieldLabel.Position = [9 7 40 22];
+            app.AllRelEditFieldLabel.Position = [9 39 40 22];
             app.AllRelEditFieldLabel.Text = 'All Rel';
 
             % Create AllRelEditField
             app.AllRelEditField = uieditfield(app.Panel_2, 'numeric');
             app.AllRelEditField.ValueDisplayFormat = '%.2f';
-            app.AllRelEditField.Position = [65 7 68 22];
+            app.AllRelEditField.Position = [65 39 68 22];
 
-            % Create ComputeButton
-            app.ComputeButton = uibutton(app.Panel_2, 'push');
-            app.ComputeButton.Position = [159 7 127 22];
-            app.ComputeButton.Text = 'Compute';
+            % Create InitialRelEditFieldLabel
+            app.InitialRelEditFieldLabel = uilabel(app.Panel_2);
+            app.InitialRelEditFieldLabel.Position = [159 39 55 22];
+            app.InitialRelEditFieldLabel.Text = 'Initial Rel';
+
+            % Create InitialRelEditField
+            app.InitialRelEditField = uieditfield(app.Panel_2, 'numeric');
+            app.InitialRelEditField.ValueDisplayFormat = '%.2f';
+            app.InitialRelEditField.Position = [218 39 68 22];
+
+            % Create LossEditFieldLabel
+            app.LossEditFieldLabel = uilabel(app.Panel_2);
+            app.LossEditFieldLabel.Position = [9 10 31 22];
+            app.LossEditFieldLabel.Text = 'Loss';
+
+            % Create LossEditField
+            app.LossEditField = uieditfield(app.Panel_2, 'numeric');
+            app.LossEditField.ValueDisplayFormat = '%.4f';
+            app.LossEditField.Position = [65 10 68 22];
+
+            % Create RosttesButton
+            app.RosttesButton = uibutton(app.UIFigure, 'push');
+            app.RosttesButton.ButtonPushedFcn = createCallbackFcn(app, @RosttesButtonPushed, true);
+            app.RosttesButton.Position = [21 597 300 22];
+            app.RosttesButton.Text = 'Rosttes';
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
@@ -815,7 +870,7 @@ classdef HyLoop101_exported < matlab.apps.AppBase
     methods (Access = public)
 
         % Construct app
-        function app = HyLoop101_exported
+        function app = HyLoop102_exported
 
             % Create UIFigure and components
             createComponents(app)
